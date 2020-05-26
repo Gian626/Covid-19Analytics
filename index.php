@@ -38,19 +38,25 @@
   </div>
 </nav>
 <div class="jumbotron jumbotron-fluid" style="background-color:#ededed" >
-  <div class="container">
-   <img src="./img/prev1.png" alt="..." width="300" height="170" class="rounded float-left display-4 .img-fluid. max-width: 100%;"> 
-    <h1 class="">REGISTRATI ORA!!</h1>
-    <p class="lead">Solo per te ci sono delle previsioni appena uscite!</p>
+  <div class="container-fluid">
+    <div class="row ">
+      <div class="col-4">
+        <img src="./img/prev1.png" alt="..." width="300" class="img-fluid rounded display-4 mx-auto d-block"> 
+      </div>
+      <div class="col-4">
+        <h1 class="text-center">REGISTRATI ORA!!</h1>
+        <p class="lead text-center">Solo per te ci sono delle previsioni appena uscite!</p>
+      </div>
+      <div class="col-4">
+        <img src="./img/prev1.png" alt="..." width="300" class="img-fluid rounded display-4 mx-auto d-block"> 
+      </div>
+    </div>
   </div>
 </div>
 
-
-
+<!-- CHARTS -->
 <div>
 </div>
-
-
 
 <footer class="text-muted">
   <div class="container">
