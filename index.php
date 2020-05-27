@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Covid-19Analytics</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covid-19Analytics</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<!-- ESEMPIO DELL'HEADER COME VA FATTO -->
 	<link rel="stylesheet" href="./css/main.css">
@@ -55,7 +55,45 @@
 </div>
 
 <!-- CHARTS -->
-<div>
+<?php 
+  require('./utils/MySQLDriver/index.php');
+  require('./utils/DataHandler/index.php');
+  $mysql = new MySQLDriver();
+  $query = "select * from DatiNazionali";
+  $result = $mysql->query($query);
+  $datiNazionali = $result->fetch_all(MYSQLI_ASSOC);
+  $dataHandler = new DataHandler();
+?>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-3 m-3 p-3 shadow">
+      <h5>Andamento nazionale</h5>
+      <canvas id="andamentoNazionale" width="400" height="400"></canvas>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+  <script>
+    var andamentoNazionaleCanvas = document.getElementById('andamentoNazionale').getContext('2d');
+    var andamentoNazionaleCanvasCfg = <?php echo $dataHandler->getConfig(
+      $datiNazionali, 
+      array(
+        "Totale Positivi" => array(
+          "key" => "totale_positivi", 
+          "borderColor" => "rgba(255, 99, 132, 1)"
+        ),
+        "Totale Deceduti" => array(
+          "key" => "deceduti",
+          "borderColor" => "rgba(182, 189, 191, 1)"
+        ),
+        "Totale Guariti" => array(
+          "key" => "dimessi_guariti",
+          "borderColor" => "rgba(66, 235, 63, 1)"
+        )
+      )
+    );
+    ?>
+    var chart1 = new Chart(andamentoNazionaleCanvas, andamentoNazionaleCanvasCfg);
+  </script>
 </div>
 
 <footer class="text-muted">
