@@ -64,16 +64,89 @@
   $datiNazionali = $result->fetch_all(MYSQLI_ASSOC);
   $dataHandler = new DataHandler();
 ?>
+<!-- Grafici Nazionali -->
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-3 m-3 p-3 shadow">
       <h5>Andamento nazionale</h5>
       <canvas id="andamentoNazionale" width="400" height="400"></canvas>
     </div>
+    <div class="col-3 m-3 p-3 shadow">
+      <h5>nuovi e variazione totale dei positivi</h5>
+      <canvas id="variazionen" width="400" height="400"></canvas>
+    </div>
+  </div>
+  
+  <!-- Grafici Regionali -->
+  <form action="/index.php" method="post">
+  <div class="row justify-content-center">
+<div class="col-5">
+<?php
+if(array_key_exists("regione", $_POST)){
+  echo "<input placeholder='{$_POST['regione']}' type='text' name='regione' value='{$_POST['regione']}' class='form-control input-lg'>";
+  $query="SELECT  * FROM  DatiRegionali WHERE  denominazione_regione='{$_POST['regione']}'";
+}
+else {
+  $query="SELECT  * FROM  DatiRegionali WHERE  denominazione_regione='Lombardia'";
+  echo "<input placeholder='Lombardia' type='text' name='regione' value='Lombardia' class='form-control input-lg'>";
+
+}
+$result = $mysql->query($query);
+$datiRegionali = $result->fetch_all(MYSQLI_ASSOC);
+
+?>
+</div>
+<div class="col-1">
+ <button type="submit" class="btn btn-outline-success" >Search</button>
+</div>
+</div>
+</form>
+  <div class="row justify-content-center">
+    <div class="col-3 m-3 p-3 shadow">
+      <h5>Andamento Regionale</h5>
+      <canvas id="andamentoRegionale" width="400" height="400"></canvas>
+    </div>
+    <div class="col-3 m-3 p-3 shadow">
+      <h5>nuovi e variazione totale dei positivi</h5>
+      <canvas id="variazioner" width="400" height="400"></canvas>
+    </div>
+  </div>
+  <!-- Grafici Provinciali -->
+  <form action="/index.php" method="post">
+  <div class="row justify-content-center">
+<div class="col-5">
+<?php
+if(array_key_exists("provincia", $_POST)){
+  echo "<input placeholder='{$_POST['provincia']}' type='text' name='provincia' value='{$_POST['provincia']}' class='form-control input-lg'>";
+  $query="SELECT  * FROM  DatiProvinciali WHERE  denominazione_provincia='{$_POST['provincia']}'";
+}
+else {
+  $query="SELECT  * FROM  DatiProvinciali WHERE  denominazione_provincia='Bergamo'";
+  echo "<input placeholder='Bergamo' type='text' name='provincia' value='Bergamo' class='form-control input-lg'>";
+
+}
+$result = $mysql->query($query);
+$datiProvinciali = $result->fetch_all(MYSQLI_ASSOC);
+
+?>
+</div>
+<div class="col-1">
+ <button type="submit" class="btn btn-outline-success" >Search</button>
+</div>
+</div>
+</form>
+
+  <div class="row justify-content-center">
+    <div class="col-3 m-3 p-3 shadow">
+      <h5>Andamento Provinciale</h5>
+      <canvas id="andamentoProvinciale" width="400" height="400"></canvas>
+    </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
   <script>
+    //grafici nazionali
     var andamentoNazionaleCanvas = document.getElementById('andamentoNazionale').getContext('2d');
+    var variaNazionaleCanvas = document.getElementById('variazionen').getContext('2d');
     var andamentoNazionaleCanvasCfg = <?php echo $dataHandler->getConfig(
       $datiNazionali, 
       array(
@@ -92,7 +165,72 @@
       )
     );
     ?>
+    var variaNazionaleCanvasCfg = <?php echo $dataHandler->getConfig(
+      $datiNazionali, 
+      array(
+        "Nuovi Positivi" => array(
+          "key" => "nuovi_positivi", 
+          "borderColor" => "rgba(255, 99, 132, 1)"
+        ),
+        "Variazione Totale Positivi" => array(
+          "key" => "variazione_totale_positivi",
+          "borderColor" => "rgba(182, 189, 191, 1)"
+        )
+      )
+    );
+    ?>
     var chart1 = new Chart(andamentoNazionaleCanvas, andamentoNazionaleCanvasCfg);
+    var chart2 = new Chart(variaNazionaleCanvas, variaNazionaleCanvasCfg);
+    //grafici regionali
+    var andamentoRegionaleCanvas = document.getElementById('andamentoRegionale').getContext('2d');
+    var variaRegionaleCanvas = document.getElementById('variazioner').getContext('2d');
+    var andamentoRegionaleCanvasCfg = <?php echo $dataHandler->getConfig(
+      $datiRegionali,
+      array(
+        "Totale Positivi" => array(
+          "key" => "totale_positivi", 
+          "borderColor" => "rgba(255, 99, 132, 1)"
+        ),
+        "Totale Deceduti" => array(
+          "key" => "deceduti",
+          "borderColor" => "rgba(182, 189, 191, 1)"
+        ),
+        "Totale Guariti" => array(
+          "key" => "dimessi_guariti",
+          "borderColor" => "rgba(66, 235, 63, 1)"
+        )
+      )
+     );
+     ?>
+     var variaRegionaleCanvasCfg = <?php echo $dataHandler->getConfig(
+      $datiRegionali, 
+      array(
+        "Nuovi Positivi" => array(
+          "key" => "nuovi_positivi", 
+          "borderColor" => "rgba(255, 99, 132, 1)"
+        ),
+        "Variazione Totale Positivi" => array(
+          "key" => "variazione_totale_positivi",
+          "borderColor" => "rgba(182, 189, 191, 1)"
+        )
+      )
+    );
+    ?>
+    var chart3 = new Chart(andamentoRegionaleCanvas, andamentoRegionaleCanvasCfg);
+    var chart4 = new Chart(variaRegionaleCanvas, variaRegionaleCanvasCfg);
+    //grafici provinciali
+    var andamentoProvincialeCanvas = document.getElementById('andamentoProvinciale').getContext('2d');
+    var andamentoProvincialeCanvasCfg = <?php echo $dataHandler->getConfig(
+      $datiProvinciali,
+      array(
+        "Totale Positivi" => array(
+          "key" => "totale_casi", 
+          "borderColor" => "rgba(255, 99, 132, 1)"
+        )
+      )
+     );
+     ?>
+    var chart5 = new Chart(andamentoProvincialeCanvas, andamentoProvincialeCanvasCfg);
   </script>
 </div>
 
