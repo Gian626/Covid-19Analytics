@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(sizeof($_SESSION)==0){
+
+  session_unset();
+  session_destroy();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,25 +19,49 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#343791">
-  <a class="navbar-brand" href="#"><img src="" width="30" height="30" alt="logo" loading="lazy"></img></a>
+  <a class="navbar-brand" href="/index.php"><img src="./img/logo1.png" width="30" height="30" alt="logo" loading="lazy"></img></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <!-- collapse riduce ad un bottone se la dimensione scende sotto una soglia -->
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="#">News</a>
       </li>
+    <?php
+    if(isset($_SESSION) && sizeof($_SESSION)>0){
+      echo '
+      <li class="nav-item">
+        <a class="nav-link" href="#">Previsioni</a>
+      </li>
+      ';
+    }
+    ?>
     </ul>
 		<form class="form-inline my-2 my-lg-0">
-		<ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
+    <?php
+    if(sizeof($_SESSION)==0){
+      echo '
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="/login/index.html">Login</a>
       </li>
 	  <li class="nav-item">
-		 <a class="nav-link" href="#">Sign up</a>
+		 <a class="nav-link" href="/signup/index.html">Sign up</a>
 	  </li>
+      ';
+    }
+    else{
+       echo '
+       <li class="nav-item">
+       <a class="nav-link" href="/logout/index.php">Logout</a>
+     </li>
+       ';
+    }
+    ?>
+		
+      
 	   <li class="nav-item">
 		 <a class="nav-link" href="#">Contact</a>
 	  </li>
