@@ -27,7 +27,7 @@ if(sizeof($_SESSION)==0){
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">News</a>
+        <a class="nav-link" href="/articoli/index.php">News</a>
       </li>
     <?php
     if(isset($_SESSION) && sizeof($_SESSION)>0){
