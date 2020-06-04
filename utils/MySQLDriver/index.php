@@ -12,6 +12,9 @@
     public function  query($query){
       return $this->connessione->query($query);
     }
+    public function getLastInsertedId(){
+      return $this->connessione->insert_id;
+    }
   }
 
 

@@ -5,6 +5,9 @@ if(sizeof($_SESSION)==0){
   session_unset();
   session_destroy();
 }
+require('./utils/MySQLDriver/index.php');
+  require('./utils/DataHandler/index.php');
+  $mysql = new MySQLDriver();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +39,15 @@ if(sizeof($_SESSION)==0){
         <a class="nav-link" href="#">Previsioni</a>
       </li>
       ';
+    $result=$mysql->query("SELECT isAdmin FROM utenti WHERE username='{$_SESSION['username']}'");
+    $user=$result->fetch_all(MYSQLI_ASSOC);
+    if($user[0]['isAdmin']){
+      echo '
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/index.php">Admin</a>
+      </li>
+      ';
+    }
     }
     ?>
     </ul>
@@ -88,9 +100,6 @@ if(sizeof($_SESSION)==0){
 
 <!-- CHARTS -->
 <?php 
-  require('./utils/MySQLDriver/index.php');
-  require('./utils/DataHandler/index.php');
-  $mysql = new MySQLDriver();
   $query = "select * from DatiNazionali";
   $result = $mysql->query($query);
   $datiNazionali = $result->fetch_all(MYSQLI_ASSOC);
