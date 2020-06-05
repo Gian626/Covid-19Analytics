@@ -3,6 +3,7 @@ require("../utils/MySQLDriver/index.php");
 $username=$_POST['username'];
 $password=$_POST['password'];
 $email=$_POST['email'];
+$subscribe=$_POST['subscribe'];
 if($username==""){
     die("perfavore  inserisci l'username");
 }
@@ -18,9 +19,10 @@ $result=$mysql->query($query);
  if($result->num_rows>0){
      die("username o email già esistente");
  }
- $query= "INSERT INTO Utenti (username, password , email , isAdmin) 
- VALUES ('$username', '$password' , '$email' , false);"; 
-$result=$mysql->query($query);
+ $query= "INSERT INTO Utenti (username, password , email , isAdmin , isSubscribed) 
+ VALUES ('$username', '$password' , '$email' , false , $subscribe);"; 
+ echo $query;
+ $result=$mysql->query($query);
 if($result){
     echo "registrato correttamente! clicca qui per fare il login";
     echo "<a href='/login/index.html'>login</a>";

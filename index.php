@@ -36,7 +36,7 @@ require('./utils/MySQLDriver/index.php');
     if(isset($_SESSION) && sizeof($_SESSION)>0){
       echo '
       <li class="nav-item">
-        <a class="nav-link" href="#">Previsioni</a>
+        <a class="nav-link" href="/previsioni/index.php">Previsioni</a>
       </li>
       ';
     $result=$mysql->query("SELECT isAdmin FROM utenti WHERE username='{$_SESSION['username']}'");
@@ -61,7 +61,7 @@ require('./utils/MySQLDriver/index.php');
       </li>
 	  <li class="nav-item">
 		 <a class="nav-link" href="/signup/index.html">Sign up</a>
-	  </li>
+    </li>
       ';
     }
     else{
@@ -81,7 +81,10 @@ require('./utils/MySQLDriver/index.php');
     </form>
   </div>
 </nav>
-<div class="jumbotron jumbotron-fluid" style="background-color:#ededed" >
+<?php
+if(sizeof($_SESSION)==0){
+  echo'
+  <div class="jumbotron jumbotron-fluid" style="background-color:#ededed" >
   <div class="container-fluid">
     <div class="row ">
       <div class="col-4">
@@ -97,7 +100,9 @@ require('./utils/MySQLDriver/index.php');
     </div>
   </div>
 </div>
-
+';
+}
+?>
 <!-- CHARTS -->
 <?php 
   $query = "select * from DatiNazionali";
@@ -278,9 +283,14 @@ $datiProvinciali = $result->fetch_all(MYSQLI_ASSOC);
 <footer class="text-muted">
   <div class="container">
     <p class="float-right">
-      <a href="#">Back to top</a>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="KY2HSH2H98KYY" />
+<input type="image" src="/img/paypal.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
+</form>
     </p>
-    <p>hai visitato il sito per tenerti aggiornato sul corona grazie!!</p>
+    <p>Dona pure per la causa al corona e tieniti aggiornato!!</p>
   </div>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

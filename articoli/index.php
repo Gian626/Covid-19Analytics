@@ -12,7 +12,7 @@ $mysql = new MySQLDriver();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Covid-19Analytics</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
@@ -39,6 +39,15 @@ $mysql = new MySQLDriver();
         <a class="nav-link" href="#">Previsioni</a>
       </li>
       ';
+      $result=$mysql->query("SELECT isAdmin FROM utenti WHERE username='{$_SESSION['username']}'");
+      $user=$result->fetch_all(MYSQLI_ASSOC);
+      if($user[0]['isAdmin']){
+        echo '
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/index.php">Admin</a>
+        </li>
+        ';
+      }
     }
     ?>
     </ul>
@@ -98,5 +107,18 @@ $mysql = new MySQLDriver();
     ?>
   </div>
 </main>
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="KY2HSH2H98KYY" />
+<input type="image" src="/img/paypal.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
+</form>
+    </p>
+    <p>Dona pure per la causa al corona e tieniti aggiornato!!</p>
+  </div>
+</footer>
 </body>
 </html>
