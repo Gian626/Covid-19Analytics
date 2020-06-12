@@ -29,14 +29,11 @@ require('./utils/MySQLDriver/index.php');
   <!-- collapse riduce ad un bottone se la dimensione scende sotto una soglia -->
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/articoli/index.php">News</a>
-      </li>
     <?php
     if(isset($_SESSION) && sizeof($_SESSION)>0){
       echo '
       <li class="nav-item">
-        <a class="nav-link" href="/previsioni/index.php">Previsioni</a>
+        <a class="nav-link" href="/articoli/index.php">News</a>
       </li>
       ';
     $result=$mysql->query("SELECT isAdmin FROM utenti WHERE username='{$_SESSION['username']}'");
@@ -72,11 +69,6 @@ require('./utils/MySQLDriver/index.php');
        ';
     }
     ?>
-		
-      
-	   <li class="nav-item">
-		 <a class="nav-link" href="#">Contact</a>
-	  </li>
     </ul>
     </form>
   </div>
